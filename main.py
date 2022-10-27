@@ -9,11 +9,16 @@ app = FastAPI()
 
 
 class Date(BaseModel):
+    id: int
     day: int
     month: int
     year: int
     title: str
     description: str
+
+
+class DateId(BaseModel):
+    id: int
 
 
 @app.post("/add_date")
@@ -22,14 +27,14 @@ async def add(date: Date):
     return {'error': 0, 'message': 'Success', "id": id}
 
 
-@app.post("/edit_date/date_id/{id}")
-async def edit(date: Date, id: int):
-    db.edit_date(date.day, date.month, date.year, date.title, date.description, id)
+@app.post("/edit_date")
+async def edit(date: Date):
+    db.edit_date(date.day, date.month, date.year, date.title, date.description, date.id)
     return {'error': 0, 'message': 'Success', "id": id}
 
 
-@app.post("/load_image/date_id/{id}")
-async def load(id: int, file: UploadFile = File(None)):
+@app.post("/load_image")
+async def load(id: DateId, file: UploadFile = File(None)):
     try:
         with open("images/" + str(file.filename), 'wb+') as f:
             f.write(file.file.read())
