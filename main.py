@@ -1,9 +1,9 @@
 import io
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
 import db
-from starlette.responses import StreamingResponse
+from starlette.responses import StreamingResponse, Response
 
 app = FastAPI()
 
@@ -33,8 +33,14 @@ async def edit(date: Date):
     return {'error': 0, 'message': 'Success', "id": id}
 
 
+@app.delete("/delete_date/{id}")
+async def delete(id: int):
+    db.delete_date(id)
+    return {"success": 1}
+
+
 @app.post("/load_image")
-async def load(id: DateId, file: UploadFile = File(None)):
+async def load(id: str = Form(None), file: UploadFile = File(None)):
     try:
         with open("images/" + str(file.filename), 'wb+') as f:
             f.write(file.file.read())
@@ -59,3 +65,11 @@ async def get():
                      'description': date[2], 'day': date[3], 'month': date[4], 'year': date[5],
                      'image': date[6]})
     return data
+
+
+@app.get("/get_date/{id}")
+async def get_date(id: int):
+    data = db.get_date(id)
+    return {'id': data[0], 'title': data[1],
+            'description': data[2], 'day': data[3], 'month': data[4], 'year': data[5],
+            'image': data[6]}

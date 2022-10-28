@@ -19,6 +19,17 @@ def get_dates():
     return result
 
 
+def get_date(id):
+    cursor.execute('select * from dates where id=%s', (id,))
+    result = cursor.fetchall()
+    return result[0]
+
+
+def delete_date(id):
+    cursor.execute('delete from dates where id=%s', (id,))
+    sql.commit()
+
+
 def add_date(day, month, year, title, description):
     cursor.execute('insert into dates(title, description, day, month, year)'
                    ' values (%s, %s, %s, %s, %s)', (title, description, day, month, year))
@@ -37,4 +48,3 @@ def edit_date(day, month, year, title, description, id):
 def upload_img(img_url, date_id):
     cursor.execute('update dates set image=%s where id=%s', (img_url, date_id))
     sql.commit()
-
