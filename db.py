@@ -14,7 +14,7 @@ sql.commit()
 
 
 def get_dates():
-    cursor.execute('select * from dates')
+    cursor.execute('select * from dates order by year')
     result = cursor.fetchall()
     return result
 
