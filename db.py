@@ -1,7 +1,7 @@
 from mysql.connector import connect
 
 sql = connect(
-    host='127.0.0.1', port=3306, user='api_user', password='Th398951', database='museum'
+    host='127.0.0.1', port=3306, user='api_user', password='password', database='museum'
 )
 
 cursor = sql.cursor()
