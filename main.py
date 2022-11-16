@@ -3,7 +3,7 @@ import io
 from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
 import db
-from starlette.responses import StreamingResponse, Response
+from starlette.responses import StreamingResponse
 
 app = FastAPI()
 
@@ -64,6 +64,10 @@ async def get():
         data.append({'id': date[0], 'title': date[1],
                      'description': date[2], 'day': date[3], 'month': date[4], 'year': date[5],
                      'image': date[6]})
+    if len(data) == 0:
+        data.append({"id": 0, "title": "Нулевая запись",
+                     "description": "После добавления новой даты запись удалится сама",
+                     "day": 1, "month": 1, "year": 1970, "image": "images/null_image.jpg"})
     return data
 
 
