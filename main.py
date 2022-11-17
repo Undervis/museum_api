@@ -67,7 +67,7 @@ async def get():
     if len(data) == 0:
         data.append({"id": 0, "title": "Нулевая запись",
                      "description": "После добавления новой даты запись удалится сама",
-                     "day": 1, "month": 1, "year": 1970, "image": "images/null_image.jpg"})
+                     "day": 1, "month": 1, "year": 1970, "image": "images/null_image_placeholder.jpg"})
     return data
 
 
